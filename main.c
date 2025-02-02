@@ -21,9 +21,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hwnd, &ps);
 
-            setBackground(hdc, 255, 50, 50);
+            setBackground(hdc, 90, 0, 0);
 
-            addBox(hdc, 40, 40);
+            addBox(hdc, 100, 100);
+            addBox(hdc, -100, 100);
+            addBox(hdc, 100, -100);
+            addBox(hdc, -100, -100);
 
             EndPaint(hwnd, &ps);
         }
@@ -81,8 +84,17 @@ void setBackground(HDC hdc, int r, int g, int b) {
 }
 
 void addBox(HDC hdc, int x, int y) {
-    SetPixel(hdc, (WIDTH+x)/2, (HEIGHT+y)/2, RGB(255, 255, 255));
-    SetPixel(hdc, (WIDTH-x)/2, (HEIGHT+y)/2, RGB(255, 255, 255));
-    SetPixel(hdc, (WIDTH+x)/2, (HEIGHT-y)/2, RGB(255, 255, 255));
-    SetPixel(hdc, (WIDTH-x)/2, (HEIGHT-y)/2, RGB(255, 255, 255));
+    int size = 50;
+
+    // Back side
+    SetPixel(hdc, (WIDTH+size+x)/2 + x, (HEIGHT+size+y)/2 + y, RGB(255, 0, 255));
+    SetPixel(hdc, (WIDTH-size+x)/2 + x, (HEIGHT+size+y)/2 + y, RGB(255, 0, 255));
+    SetPixel(hdc, (WIDTH+size+x)/2 + x, (HEIGHT-size+y)/2 + y, RGB(255, 0, 255));
+    SetPixel(hdc, (WIDTH-size+x)/2 + x, (HEIGHT-size+y)/2 + y, RGB(255, 0, 255));
+
+    // Front side
+    SetPixel(hdc, (WIDTH+size)/2 + x, (HEIGHT+size)/2 + y, RGB(0, 255, 255));
+    SetPixel(hdc, (WIDTH-size)/2 + x, (HEIGHT+size)/2 + y, RGB(0, 255, 255));
+    SetPixel(hdc, (WIDTH+size)/2 + x, (HEIGHT-size)/2 + y, RGB(0, 255, 255));
+    SetPixel(hdc, (WIDTH-size)/2 + x, (HEIGHT-size)/2 + y, RGB(0, 255, 255));
 }
