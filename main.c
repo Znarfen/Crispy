@@ -1,5 +1,7 @@
 // compile comand: gcc -o main main.c -mwindows
 
+// MessageBox(hwnd, "msg", "title", MB_OK);
+
 #include <windows.h>
 #include <math.h>
 #include <stdio.h>
@@ -16,24 +18,31 @@ void drawLine(HDC hdc, int pX, int pY, int qX, int qY, int r, int g, int b);
 // Handles the window, closing the window or set pixels
 int x = 0;
 int y = 0;
-int sx = 1;
-int sy = 0;
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
         case WM_CREATE:
             SetTimer(hwnd, 1, 30, NULL);  // Timer with ID=1, 30ms interval
             return 0;
 
+        // Key down
+        case WM_KEYDOWN:
+            if (wParam == 'W') {
+                y--;
+            }
+            if (wParam == 'A') {
+                x++;
+            }
+            if (wParam == 'S') {
+                y++;
+            }
+            if (wParam == 'D') {
+                x--;
+            }
+            return 0;
+
+        // Draw here
         case WM_TIMER:
             if (wParam == 1) {
-                x += sx;
-                y += sy;
-
-                if (x > 100) { x = 100; sx = 0; sy = -1; }
-                if (y < -100) { y = -100; sx = -1; sy = 0; }
-                if (x < -100) { x = -100; sx = 0; sy = 1; }
-                if (y > 100) { y = 100; sx = 1; sy = 0; }
-
                 InvalidateRect(hwnd, NULL, FALSE);  // Only redraw changed area
             }
             return 0;
@@ -196,6 +205,12 @@ void drawLine(HDC hdc, int pX, int pY, int qX, int qY, int r, int g, int b) {
                 RGB(r, g, b));
     }
 }
+
+
+void drawWall(HDC hdc, int pX, int pY, int qX, int qY, int z) {
+
+}
+
 
 
 
